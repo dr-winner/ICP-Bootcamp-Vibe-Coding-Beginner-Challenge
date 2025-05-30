@@ -1,36 +1,62 @@
 // 1. Find the first word in a string
-fn first_word(s: /* TODO: Add parameter type for a string slice */) -> &str  {
-    // TODO: Return the first word in the string (up to the first space or the entire string if no spaces)
-    ""
+fn first_word(s: &str) -> &str {
+    let bytes = s.as_bytes();
+    
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
+    
+    s // Return the entire string if no space is found
 }
 
 // 2. Calculate the sum of elements in an array slice
-fn sum_slice(numbers: /* TODO: Add parameter type for a slice of integers */) -> i32 {
-    // TODO: Calculate and return the sum of all elements in the slice
-    0
+fn sum_slice(numbers: &[i32]) -> i32 {
+    numbers.iter().sum()
 }
 
 // 3. Find the middle element(s) of a slice
-fn middle_elements(slice: /* TODO: Add parameter type for a generic slice */) -> &[T]  {
-    // TODO: Return the middle element if length is odd, or the two middle elements if length is even
-    // Hint: For a generic implementation, you'll need to handle both cases
-    if slice.len() % 2 == 1 {
-        // Odd length - return a slice containing just the middle element
-    } else {
-        // Even length - return a slice containing the two middle elements
+fn middle_elements<T>(slice: &[T]) -> &[T] {
+    let len = slice.len();
+    if len == 0 {
+        return &slice[0..0];
     }
     
-    &slice[0..0] // Placeholder empty slice - replace this
+    if len % 2 == 1 {
+        // Odd length - return a slice containing just the middle element
+        let mid = len / 2;
+        &slice[mid..mid+1]
+    } else {
+        // Even length - return a slice containing the two middle elements
+        let mid = len / 2;
+        &slice[mid-1..mid+1]
+    }
 }
 
 // 4. Extract a subslice based on a condition (e.g., all positive numbers)
-fn extract_positive(numbers: /* TODO: Add parameter type for a slice of integers */) -> &[i32] {
-    // TODO: Find the first continuous run of positive numbers in the slice and return it as a slice
-    // If the slice starts with a positive number, return from start until the first non-positive
-    // If the slice starts with a non-positive, find the first positive and return from there until the next non-positive
-    // If no positives are found, return an empty slice
+fn extract_positive(numbers: &[i32]) -> &[i32] {
+    if numbers.is_empty() {
+        return &numbers[0..0];
+    }
     
-    &numbers[0..0] // Placeholder empty slice - replace this
+    // Find the start of the first positive run
+    let mut start = 0;
+    while start < numbers.len() && numbers[start] <= 0 {
+        start += 1;
+    }
+    
+    if start == numbers.len() {
+        return &numbers[0..0]; // No positive numbers found
+    }
+    
+    // Find the end of the positive run
+    let mut end = start;
+    while end < numbers.len() && numbers[end] > 0 {
+        end += 1;
+    }
+    
+    &numbers[start..end]
 }
 
 fn main() {

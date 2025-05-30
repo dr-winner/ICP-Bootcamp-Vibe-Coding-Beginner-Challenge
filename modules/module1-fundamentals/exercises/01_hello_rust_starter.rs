@@ -15,11 +15,9 @@ fn main() {
         .expect("Failed to read line");
 
     // BONUS: Print the current date
+    // Hint: You can use the chrono crate for this
 
     let current_date = Local::now().format("%Y-%m-%d").to_string();
     println!("Hello, {}! Today's date is {}", name.trim(), current_date);
 
-
-    // Hint: You can use the chrono crate for this
-    
 }
